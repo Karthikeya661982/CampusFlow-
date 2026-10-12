@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <title>CampusFlow — Siddhartha Academy of Higher Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- System Demo Notice Banner -->
+  <aside class="demo-banner" role="complementary" aria-label="Demonstration environment notice">
+    <div class="demo-banner-inner">
+      <span class="badge-demo">PROTOTYPE MODE</span>
+      <span>Simulated institutional data. System enforces role-based permissions, traceable audit logs, and attendance eligibility verification.</span>
+      <button class="btn-text-white" id="btnResetData" title="Reset to initial sample dataset">↺ Reset Demo Data</button>
+    </div>
+  </aside>
+
+  <!-- Login Interface Screen (Student, Proctor, In-Charge Authentication) -->
+  <section class="login-screen" id="loginScreen" aria-label="Portal Login">
+    <div class="login-card">
+      <header class="login-header">
+        <div class="login-crest">
+          <svg viewBox="0 0 32 32" class="crest-svg"><path d="M7 17.2 14 24l11-15"/><path d="M16 3.5A12.5 12.5 0 1 0 28.5 16"/></svg>
+        </div>
+        <div class="inst-subtitle">SIDDHARTHA ACADEMY OF HIGHER EDUCATION</div>
+        <h1 class="login-portal-title">Campus<span class="brand-accent">Flow</span> Access Portal</h1>
+        <p class="login-tagline">Technical Event Participation Approval & Attendance Monitoring System</p>
+      </header>
+
+      <!-- Role Tabs -->
+      <nav class="login-tabs" role="tablist" aria-label="Login Interface Selectors">
+        <button type="button" class="login-tab-btn active" id="tabStudent" role="tab" aria-selected="true" data-tab-role="student">
+          <span class="tab-icon">🎓</span>
+          <span>Student Login</span>
+        </button>
+        <button type="button" class="login-tab-btn" id="tabProctor" role="tab" aria-selected="false" data-tab-role="proctor">
+          <span class="tab-icon">👨‍🏫</span>
+          <span>Proctor Login</span>
+        </button>
+        <button type="button" class="login-tab-btn" id="tabIncharge" role="tab" aria-selected="false" data-tab-role="admin">
+          <span class="tab-icon">🏛</span>
+          <span>In-Charge Login</span>
+        </button>
+      </nav>
+
+      <!-- Role-Specific Login Panels -->
+      <div class="login-body">
+        <!-- 1. Student Login Interface -->
+        <div class="login-role-panel active" id="panelStudent">
+          <div class="panel-kicker">STUDENT ACCREDITATION PORTAL</div>
+          <p class="panel-desc">Sign in with your registered Roll Number / USN to view verified attendance, submit event requests, and track on-duty outcomes.</p>
+          
+          <form id="formStudentLogin" class="login-form">
+            <label>
+              Institutional Roll Number / USN <span class="req-star">*</span>
+              <input type="text" id="loginStudentRoll" required placeholder="e.g. 25EU02094 or 1RV22CS142" value="25EU02094" />
+            </label>
+            <label>
+              Student Security Password / PIN <span class="req-star">*</span>
+              <input type="password" id="loginStudentPin" required placeholder="••••••••" value="student123" />
+            </label>
+            <div class="login-form-foot">
+              <label class="checkbox-label" style="font-size:0.78rem;">
+                <input type="checkbox" checked /> Remember credentials
+              </label>
+              <span class="credentials-hint">Default demo PIN: <code>student123</code></span>
+            </div>
+            <button type="submit" class="primary-button login-submit-btn">
+              <span>Sign In as Student</span> <span>→</span>
+            </button>
+          </form>
+
+          <div class="demo-account-box">
+            <div class="demo-box-top">
+              <strong>Quick 1-Click Demo Students:</strong>
+            </div>
+            <div class="demo-chips-grid">
+              <button type="button" class="btn-demo-pill active" data-autofill-student="25EU02094">
+                <strong>Madupu Karthikeya</strong> (25EU02094) • 87.5% Eligible
+              </button>
+              <button type="button" class="btn-demo-pill" data-autofill-student="1RV22CS142">
+                <strong>Sneha Reddy</strong> (1RV22CS142) • 82.4% Eligible
+              </button>
+              <button type="button" class="btn-demo-pill" data-autofill-student="1RV22EC078">
+                <strong>Karthik Verma</strong> (1RV22EC078) • 68.3% (Ineligible Flag)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Proctor Login Interface -->
+        <div class="login-role-panel" id="panelProctor">
+          <div class="panel-kicker">FACULTY MENTORSHIP & PROCTORIAL PORTAL</div>
+          <p class="panel-desc">Sign in with your Faculty credentials to evaluate assigned mentees, verify attendance data freshness, and recommend participation decisions.</p>
+          
+          <form id="formProctorLogin" class="login-form">
+            <label>
+              Faculty ID / Institutional Email <span class="req-star">*</span>
+              <input type="text" id="loginProctorId" required placeholder="e.g. P1001 or alan.smith@sahe.edu" value="P1001" />
+            </label>
+            <label>
+              Faculty Passcode <span class="req-star">*</span>
+              <input type="password" id="loginProctorPin" required placeholder="••••••••" value="proctor123" />
+            </label>
+            <div class="login-form-foot">
+              <label class="checkbox-label" style="font-size:0.78rem;">
+                <input type="checkbox" checked /> Remember faculty session
+              </label>
+              <span class="credentials-hint">Default demo PIN: <code>proctor123</code></span>
+            </div>
+            <button type="submit" class="primary-button login-submit-btn" style="background:#059669;">
+              <span>Sign In as Faculty Proctor</span> <span>→</span>
+            </button>
+          </form>
+
+          <div class="demo-account-box">
+            <div class="demo-box-top">
+              <strong>Quick 1-Click Demo Faculty Proctors:</strong>
+            </div>
+            <div class="demo-chips-grid">
+              <button type="button" class="btn-demo-pill active" data-autofill-proctor="P1001">
+                <strong>Dr. Alan Smith</strong> (P1001) • Computer Science (7 Mentees)
+              </button>
+              <button type="button" class="btn-demo-pill" data-autofill-proctor="P1002">
+                <strong>Prof. Rao</strong> (P1002) • Electronics Department
+              </button>
+              <button type="button" class="btn-demo-pill" data-autofill-proctor="P1003">
+                <strong>Dr. Kulkarni</strong> (P1003) • Mechanical Department
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. In-Charge Login Interface -->
+        <div class="login-role-panel" id="panelIncharge">
+          <div class="panel-kicker">INSTITUTIONAL GOVERNANCE & APPROVALS</div>
+          <p class="panel-desc">Administrative console for the Technical Event In-Charge. Import attendance files, enforce minimum thresholds, and grant on-duty approvals.</p>
+          
+          <form id="formInchargeLogin" class="login-form">
+            <label>
+              Administrative Authority ID / Email <span class="req-star">*</span>
+              <input type="text" id="loginInchargeId" required placeholder="e.g. A2001 or incharge@sahe.edu" value="A2001" />
+            </label>
+            <label>
+              Governance Security Passcode <span class="req-star">*</span>
+              <input type="password" id="loginInchargePin" required placeholder="••••••••" value="admin123" />
+            </label>
+            <div class="login-form-foot">
+              <span class="badge-authority">AUTHORITY: LEVEL 3 GOVERNANCE</span>
+              <span class="credentials-hint">Default demo PIN: <code>admin123</code></span>
+            </div>
+            <button type="submit" class="primary-button login-submit-btn">
+              <span>Sign In as Event In-Charge</span> <span>→</span>
+            </button>
+          </form>
+
+          <div class="demo-account-box">
+            <div class="demo-box-top">
+              <strong>Quick 1-Click Demo Authority:</strong>
+            </div>
+            <div class="demo-chips-grid">
+              <button type="button" class="btn-demo-pill active" data-autofill-incharge="A2001">
+                <strong>Arjun Sharma</strong> (A2001) • Technical Event In-Charge
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Institutional Footer Features -->
+      <footer class="login-footer">
+        <div class="login-footer-col">
+          <strong>1. Attendance Integrity</strong>
+          <span>Calculated directly from uploaded official class logs.</span>
+        </div>
+        <div class="login-footer-col">
+          <strong>2. Multi-Role Trail</strong>
+          <span>Proctor recommendation + In-Charge decision history.</span>
+        </div>
+        <div class="login-footer-col">
+          <strong>3. Exception Governance</strong>
+          <span>Strict 75% rule with authorized Dean exception overrides.</span>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <div class="app-shell" id="appShell">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+      <a class="brand" href="#dashboard" aria-label="CampusFlow home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M7 17.2 14 24l11-15"/><path d="M16 3.5A12.5 12.5 0 1 0 28.5 16"/></svg>
+        </span>
+        <span>campus<span class="brand-accent">flow</span></span>
+      </a>
+
+      <div class="workspace" id="workspaceTrigger" title="Institutional Workspace">
+        <div class="workspace-icon" aria-hidden="true">SA</div>
+        <div>
+          <strong>Siddhartha Academy of Higher Education</strong>
+          <small>Engineering & Tech Campus</small>
+        </div>
+        <span class="chevron" aria-hidden="true">⌄</span>
+      </div>
+
+      <div class="nav-label">WORKSPACES</div>
+      <nav class="main-nav" aria-label="Workspace Pages">
+        <a class="nav-item active" href="#dashboard" data-page="dashboard">
+          <span class="nav-icon" aria-hidden="true">◫</span>Overview
+        </a>
+        <a class="nav-item" href="#requests" data-page="requests">
+          <span class="nav-icon" aria-hidden="true">▤</span>Event Requests 
+          <span class="nav-count" id="sidebarReqBadge">0</span>
+        </a>
+        <a class="nav-item" href="#attendance" data-page="attendance">
+          <span class="nav-icon" aria-hidden="true">◉</span>Attendance Registry
+        </a>
+        <a class="nav-item" href="#reports" data-page="reports">
+          <span class="nav-icon" aria-hidden="true">▥</span>Reports & Exports
+        </a>
+      </nav>
+
+      <div class="nav-label tools-label">INSTITUTIONAL GOVERNANCE</div>
+      <nav class="main-nav" aria-label="Governance Pages">
+        <a class="nav-item" href="#rules" data-page="rules">
+          <span class="nav-icon" aria-hidden="true">⚙</span>Eligibility Rules
+        </a>
+        <a class="nav-item" href="#audit" data-page="audit">
+          <span class="nav-icon" aria-hidden="true">♧</span>Audit & Import Logs
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-bubble" aria-hidden="true">ℹ</div>
+          <strong>Attendance Policy</strong>
+          <p id="sidebarThresholdText">Minimum 75% attendance required for institutional on-duty approval.</p>
+          <button class="help-link" id="sidebarTemplateBtn">Download Templates ↗</button>
+        </div>
+
+        <div class="profile-mini" id="userProfileCard" tabindex="0" role="button" aria-label="Current User Profile">
+          <div class="avatar admin-avatar" id="sidebarAvatar">AS</div>
+          <div class="profile-info">
+            <strong id="sidebarUserName">Arjun Sharma</strong>
+            <small id="sidebarUserRole">Technical Event In-Charge</small>
+          </div>
+          <button type="button" class="btn-sidebar-logout" id="btnSidebarLogout" title="Sign Out to Login Interface" aria-label="Sign Out">⎋</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-area" id="mainArea">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu" id="menuToggle" aria-label="Toggle navigation menu">☰</button>
+          <nav class="crumb" aria-label="Breadcrumb">
+            Workspace <span>/</span> <strong id="pageCrumb">Overview</strong>
+          </nav>
+        </div>
+
+        <div class="top-actions">
+          <div class="role-selector-wrap" title="Switch user role to experience different permission workflows">
+            <span class="role-indicator-dot" id="roleDot" aria-hidden="true"></span>
+            <label for="roleSelect" class="sr-only">Switch Active Role</label>
+            <select id="roleSelect" aria-label="Switch active role">
+              <option value="admin">Technical Event In-Charge (Arjun Sharma)</option>
+              <option value="proctor">Faculty Proctor (Dr. Alan Smith)</option>
+              <option value="student">Student (Madupu Karthikeya - 25EU02094)</option>
+            </select>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </div>
+
+          <button type="button" class="btn-top-logout" id="btnTopLogout" title="Sign out to Login Interface">
+            <span aria-hidden="true">⎋</span>
+            <span>Sign Out</span>
+          </button>
+
+          <div class="avatar admin-avatar top-avatar" id="topAvatar" aria-hidden="true">AS</div>
+        </div>
+      </header>
+
+      <!-- Dynamic Content Injection Container -->
+      <div class="content" id="content">
+        <!-- Rendered by app.js depending on active page and active role -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Modal 1: New / Edit Event Request Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <section class="modal">
+      <button class="modal-close" id="closeModal" aria-label="Close dialog">×</button>
+      <div class="modal-kicker" id="modalKicker">EVENT PARTICIPATION REQUEST</div>
+      <h2 id="modalTitle">Submit External Event Request</h2>
+      <p class="modal-desc" id="modalDesc">Fill in event parameters to route your application through proctor recommendation and institutional approval.</p>
+
+      <!-- Dynamic eligibility notice banner inside form -->
+      <div id="formEligibilityBanner" class="form-banner" style="display:none;"></div>
+
+      <form id="requestForm" novalidate>
+        <input type="hidden" id="editRequestId" name="requestId" value="" />
+
+        <div class="form-grid">
+          <label class="full-field">
+            Event Title / Name <span class="req-star">*</span>
+            <input required id="reqEventTitle" name="event" placeholder="e.g. National Hackathon on AI & Cloud 2026" />
+          </label>
+
+          <label>
+            Organizer Organization <span class="req-star">*</span>
+            <input required id="reqOrganizer" name="organizer" placeholder="e.g. IEEE / IIT Madras / ACM" />
+          </label>
+
+          <label>
+            Event Category <span class="req-star">*</span>
+            <select required id="reqCategory" name="category">
+              <option value="">Select Category</option>
+              <option value="Hackathon">Hackathon</option>
+              <option value="Workshop">Workshop</option>
+              <option value="Conference">Conference</option>
+              <option value="Technical Competition">Technical Competition</option>
+              <option value="Industrial Visit">Industrial Visit</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label>
+            Start Date <span class="req-star">*</span>
+            <input required type="date" id="reqStartDate" name="start" />
+          </label>
+
+          <label>
+            End Date <span class="req-star">*</span>
+            <input required type="date" id="reqEndDate" name="end" />
+          </label>
+
+          <label class="full-field">
+            Venue & City <span class="req-star">*</span>
+            <input required id="reqVenue" name="venue" placeholder="e.g. Campus Auditorium, Hyderabad or Online / Virtual" />
+          </label>
+
+          <label class="full-field">
+            Event Website or Registration URL
+            <input type="url" id="reqUrl" name="url" placeholder="https://example.com/event-registration" />
+          </label>
+
+          <label class="full-field">
+            Purpose & Academic / Career Benefit <span class="req-star">*</span>
+            <textarea required id="reqPurpose" name="purpose" rows="3" placeholder="Explain the technical competencies gained, project relevance, or paper presentation topic..."></textarea>
+          </label>
+
+          <label class="full-field upload-field">
+            Supporting Document (Brochure / Acceptance / Call for Participation)
+            <input type="file" id="reqFile" name="document" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" />
+            <span class="upload-hint">Accepted formats: PDF, Image, Document (up to 10 MB). Simulated file storage.</span>
+            <span id="existingDocName" class="existing-doc-indicator" style="display:none;"></span>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="secondary-button" id="cancelModal">Cancel</button>
+          <button type="submit" class="primary-button" id="btnSubmitRequest">Submit Request <span>→</span></button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Modal 2: Request Details & Comprehensive Audit Trail Modal -->
+  <div class="modal-backdrop" id="detailsModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+    <section class="modal modal-lg">
+      <button class="modal-close" id="closeDetailsModal" aria-label="Close dialog">×</button>
+      <div class="modal-kicker">AUDIT TRAIL & REQUEST SPECIFICATION</div>
+      <h2 id="detailsTitle">Request Details</h2>
+      <div id="detailsModalContent"></div>
+      <div class="form-actions" id="detailsModalActions" style="margin-top:20px;">
+        <button type="button" class="secondary-button" id="btnDismissDetails">Close</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal 3: Proctor Review & Recommendation Modal -->
+  <div class="modal-backdrop" id="proctorModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="proctorTitle">
+    <section class="modal">
+      <button class="modal-close" id="closeProctorModal" aria-label="Close dialog">×</button>
+      <div class="modal-kicker">PROCTOR REVIEW WORKFLOW</div>
+      <h2 id="proctorTitle">Review & Recommend Event Request</h2>
+      <div id="proctorModalContent"></div>
+      <form id="proctorForm">
+        <input type="hidden" id="proctorReqId" />
+        <div class="form-grid" style="grid-template-columns: 1fr; margin-top:14px;">
+          <label>
+            Proctor Action Recommendation <span class="req-star">*</span>
+            <select id="proctorDecision" required>
+              <option value="Recommended for Approval">Recommend Approval (Forward to Event In-Charge)</option>
+              <option value="Returned for Correction">Return for Correction (Student can update details)</option>
+              <option value="Recommended for Rejection">Recommend Rejection (Attendance or academic conflict)</option>
+            </select>
+          </label>
+
+          <label>
+            Faculty Recommendation Remarks <span class="req-star">*</span>
+            <textarea id="proctorRemarks" rows="3" required placeholder="Provide academic assessment, justification or clarification instructions..."></textarea>
+          </label>
+        </div>
+
+        <div class="form-actions" style="margin-top:20px;">
+          <button type="button" class="secondary-button" id="cancelProctorModal">Cancel</button>
+          <button type="submit" class="primary-button">Submit Recommendation</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Modal 4: Event In-Charge Final Decision Modal (With Authorized Override) -->
+  <div class="modal-backdrop" id="inchargeModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="inchargeTitle">
+    <section class="modal">
+      <button class="modal-close" id="closeInchargeModal" aria-label="Close dialog">×</button>
+      <div class="modal-kicker">FINAL INSTITUTIONAL DECISION</div>
+      <h2 id="inchargeTitle">Approve, Reject or Return Request</h2>
+      <div id="inchargeModalContent"></div>
+      <form id="inchargeForm">
+        <input type="hidden" id="inchargeReqId" />
+        
+        <!-- Authorized Exception Override Block (Displayed when student is attendance-ineligible) -->
+        <div id="overrideBox" class="override-panel" style="display:none;">
+          <div class="override-heading">
+            <span class="warning-icon">⚠</span>
+            <strong>Attendance Below Threshold / Flagged</strong>
+          </div>
+          <p>This student does not meet normal attendance eligibility requirements. You may authorize an institutional exception override per academic board bylaws.</p>
+          <label class="checkbox-label" style="margin-top:8px;">
+            <input type="checkbox" id="chkAuthorizeOverride" />
+            <span>Authorize Institutional Exception Override (Preserves ineligible flag in permanent audit log)</span>
+          </label>
+          <label id="lblOverrideJustification" style="display:none; margin-top:8px;">
+            Exception Justification / Approval Authority Reference <span class="req-star">*</span>
+            <input type="text" id="txtOverrideJustification" placeholder="e.g. Dean of Engineering Approval Memo #DE-2026/89" />
+          </label>
+        </div>
+
+        <div class="form-grid" style="grid-template-columns: 1fr; margin-top:14px;">
+          <label>
+            Institutional Decision <span class="req-star">*</span>
+            <select id="inchargeDecision" required>
+              <option value="Approved">Approve (Grant On-Duty Attendance)</option>
+              <option value="Returned for Correction">Return for Correction</option>
+              <option value="Rejected">Reject Request</option>
+            </select>
+          </label>
+
+          <label>
+            Decision Reason / Remarks <span class="req-star">*</span>
+            <textarea id="inchargeRemarks" rows="3" required placeholder="Mandatory remarks detailing decision grounds or rejection reasons..."></textarea>
+          </label>
+        </div>
+
+        <div class="form-actions" style="margin-top:20px;">
+          <button type="button" class="secondary-button" id="cancelInchargeModal">Cancel</button>
+          <button type="submit" class="primary-button" id="btnSubmitInchargeDecision">Record Final Decision</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Modal 5: Attendance Import Preview & Validation Modal -->
+  <div class="modal-backdrop" id="importPreviewBackdrop" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+    <section class="modal modal-xl">
+      <button class="modal-close" id="closeImportPreview" aria-label="Close dialog">×</button>
+      <div class="modal-kicker">DATASET VERIFICATION & PREVIEW</div>
+      <h2 id="previewTitle">Attendance File Import Preview</h2>
+      <p class="modal-desc" id="importPreviewDesc">Review validation results before committing. If errors exist or import is cancelled, existing records remain completely untouched.</p>
+
+      <div class="preview-metrics" id="previewMetricsContainer"></div>
+
+      <div class="table-wrap" style="max-height: 380px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:8px; margin: 16px 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>ROW</th>
+              <th>ROLL NUMBER</th>
+              <th>STUDENT NAME</th>
+              <th>DEPARTMENT</th>
+              <th>YEAR/SECTION</th>
+              <th>CLASSES (ATT/COND)</th>
+              <th>CALC %</th>
+              <th>SUPPLIED %</th>
+              <th>STATUS</th>
+              <th>VALIDATION NOTE</th>
+            </tr>
+          </thead>
+          <tbody id="importPreviewRows"></tbody>
+        </table>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="secondary-button" id="btnCancelImportPreview">Cancel (Leave Data Unchanged)</button>
+        <button type="button" class="primary-button" id="btnCommitImport">Commit Valid Records <span>✓</span></button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal 6: Download Templates Helper Modal -->
+  <div class="modal-backdrop" id="templateModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="tmplTitle">
+    <section class="modal">
+      <button class="modal-close" id="closeTemplateModal" aria-label="Close dialog">×</button>
+      <div class="modal-kicker">DATA INGESTION SPECIFICATION</div>
+      <h2 id="tmplTitle">Attendance Import Templates</h2>
+      <p class="modal-desc">Download pre-formatted templates matching all required columns for automated registry ingestion.</p>
+
+      <div class="template-spec-box">
+        <strong>Required Columns (Case-insensitive):</strong>
+        <ol>
+          <li><code>Roll Number</code> (e.g. 1RV22CS142 or 25EU02094)</li>
+          <li><code>Student Name</code></li>
+          <li><code>Department</code> (e.g. Computer Science, Electronics, etc.)</li>
+          <li><code>Year/Section</code> (e.g. III-A, IV-B, 5)</li>
+          <li><code>Classes Conducted</code> (Numeric &gt; 0)</li>
+          <li><code>Classes Attended</code> (Numeric &le; Classes Conducted)</li>
+          <li><code>Data As Of</code> (Date string, e.g. 2026-10-12)</li>
+          <li><code>Attendance Percentage</code> (Optional - validated against calculated value)</li>
+        </ol>
+      </div>
+
+      <div style="display:flex; gap:12px; margin-top:20px; justify-content:flex-end;">
+        <button type="button" class="secondary-button" id="btnDownloadTmplCsv">Download .CSV Template</button>
+        <button type="button" class="primary-button" id="btnDownloadTmplXlsx">Download .XLSX Template</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal 7: User Profile & Institutional Identity Modal -->
+  <div class="modal-backdrop" id="profileModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <section class="modal">
+      <button class="modal-close" id="closeProfileModal" aria-label="Close dialog">×</button>
+      <div class="modal-kicker">USER SESSION & ACCREDITATION</div>
+      <h2 id="profileModalTitle">Active User Profile</h2>
+      <p class="modal-desc">Current institutional identity, authorization scope, and session details.</p>
+      
+      <div id="profileModalContent"></div>
+
+      <div class="form-actions" style="margin-top:20px; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <button type="button" class="btn-top-logout" id="btnProfileLogout" style="color:#b91c1c; border-color:#fca5a5;">
+          <span>⎋ Sign Out</span>
+        </button>
+        <button type="button" class="secondary-button" id="btnDismissProfile">Close</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal 8: Institutional Workspace Details Modal -->
+  <div class="modal-backdrop" id="workspaceModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="wsModalTitle">
+    <section class="modal modal-lg">
+      <button class="modal-close" id="closeWsModal" aria-label="Close dialog">×</button>
+      <div class="modal-kicker">SIDDHARTHA ACADEMY OF HIGHER EDUCATION</div>
+      <h2 id="wsModalTitle">Institutional Campus Overview</h2>
+      <p class="modal-desc">Autonomous Engineering & Technology Campus Portal Specification.</p>
+      
+      <div id="workspaceModalContent"></div>
+
+      <div class="form-actions" style="margin-top:20px; justify-content:flex-end;">
+        <button type="button" class="secondary-button" id="btnDismissWs">Close</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Dependencies & Main Engine -->
+  <script src="xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
