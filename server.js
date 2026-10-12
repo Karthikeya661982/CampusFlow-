@@ -4,12 +4,13 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static assets from Pixel folder
+// Serve static assets from root and Pixel folder
+app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'Pixel')));
 
-// Fallback to Pixel/index.html for any unhandled routes
+// Fallback to index.html for any unhandled routes
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'Pixel', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
